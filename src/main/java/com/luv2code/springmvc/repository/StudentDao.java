@@ -8,4 +8,6 @@ import com.luv2code.springmvc.models.CollegeStudent;
 @Repository
 public interface StudentDao extends CrudRepository<CollegeStudent, Integer> {
 
+	CollegeStudent findByEmailAddress(String email);
+
 }

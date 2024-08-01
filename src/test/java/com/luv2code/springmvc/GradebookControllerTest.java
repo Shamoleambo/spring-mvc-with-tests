@@ -2,6 +2,7 @@ package com.luv2code.springmvc;
 
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.TestPropertySource;
@@ -81,4 +83,15 @@ public class GradebookControllerTest {
 		ModelAndViewAssert.assertViewName(mav, "index");
 	}
 
+	@Test
+	void createStudentHttpRequest() throws Exception {
+		MvcResult mvcResult = this.mockMvc
+				.perform(post("/").contentType(MediaType.APPLICATION_JSON)
+						.param("firstname", request.getParameterValues("firstname"))
+						.param("lastname", request.getParameterValues("lastname"))
+						.param("emailAddress", request.getParameterValues("emailAddress")))
+				.andExpect(status().isOk()).andReturn();
+		ModelAndView mav = mvcResult.getModelAndView();
+		ModelAndViewAssert.assertViewName(mav, "index");
+	}
 }

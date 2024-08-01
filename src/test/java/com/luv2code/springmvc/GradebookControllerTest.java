@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MockMvc;
@@ -32,6 +34,8 @@ import com.luv2code.springmvc.service.StudentAndGradeService;
 @SpringBootTest
 public class GradebookControllerTest {
 
+	private static MockHttpServletRequest request;
+
 	@Autowired
 	private JdbcTemplate jdbc;
 
@@ -40,6 +44,14 @@ public class GradebookControllerTest {
 
 	@Mock
 	private StudentAndGradeService studentAndGradeServiceMock;
+
+	@BeforeAll
+	static void setup() {
+		request = new MockHttpServletRequest();
+		request.setParameter("firstname", "Deutonico");
+		request.setParameter("lastname", "Amado");
+		request.setParameter("email_address", "deut.ama@mail.com");
+	}
 
 	@BeforeEach
 	void beforeEach() {

@@ -29,4 +29,9 @@ public class GradebookController {
 		return "studentInformation";
 	}
 
+	@PostMapping(value = "/")
+	public String createStudent(@ModelAttribute("student") CollegeStudent student, Model m) {
+		return "index";
+	}
+
 }

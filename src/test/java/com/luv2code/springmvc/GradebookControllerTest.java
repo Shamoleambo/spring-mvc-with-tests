@@ -2,6 +2,7 @@ package com.luv2code.springmvc;
 
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +17,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.luv2code.springmvc.models.CollegeStudent;
 import com.luv2code.springmvc.models.GradebookCollegeStudent;
@@ -56,5 +61,12 @@ public class GradebookControllerTest {
 		when(this.studentAndGradeServiceMock.getGradebook()).thenReturn(students);
 
 		assertIterableEquals(students, this.studentAndGradeServiceMock.getGradebook());
+
+		MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/")).andExpect(status().isOk())
+				.andReturn();
+		ModelAndView mav = mvcResult.getModelAndView();
+
+		ModelAndViewAssert.assertViewName(mav, "index");
 	}
+
 }

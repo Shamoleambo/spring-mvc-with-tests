@@ -1,5 +1,7 @@
 package com.luv2code.springmvc.service;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +21,13 @@ public class StudentAndGradeService {
 		CollegeStudent student = new CollegeStudent(firstName, lastName, emailAddress);
 		student.setId(0);
 		this.studentDao.save(student);
+	}
+
+	public boolean checkIfStudentIsNull(int id) {
+		Optional<CollegeStudent> student = this.studentDao.findById(id);
+		if (student.isPresent()) {
+			return true;
+		}
+		return false;
 	}
 }

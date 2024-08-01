@@ -1,10 +1,15 @@
 package com.luv2code.springmvc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
 
 import com.luv2code.springmvc.models.CollegeStudent;
@@ -16,10 +21,24 @@ import com.luv2code.springmvc.service.StudentAndGradeService;
 public class StudentAndGradeServiceTest {
 
 	@Autowired
+	private JdbcTemplate jdbc;
+
+	@Autowired
 	private StudentAndGradeService studentService;
 
 	@Autowired
 	private StudentDao studentDao;
+
+	@BeforeEach
+	void setupDatabase() {
+		this.jdbc.execute("insert into student(id, firstname, lastname, email_address) "
+				+ "values (1, 'Truta', 'Maneiro', 'truta@mail.com')");
+	}
+
+	@AfterEach
+	void setupAfterTransaction() {
+		this.jdbc.execute("delete from student");
+	}
 
 	@Test
 	void createStudentService() {
@@ -28,5 +47,11 @@ public class StudentAndGradeServiceTest {
 		CollegeStudent student = this.studentDao.findByEmailAddress("mano@mail.com");
 
 		assertEquals("mano@mail.com", student.getEmailAddress(), "find by email");
+	}
+
+	@Test
+	void isStudentNullCheck() {
+		assertTrue(this.studentService.checkIfStudentIsNull(1));
+		assertFalse(this.studentService.checkIfStudentIsNull(0));
 	}
 }

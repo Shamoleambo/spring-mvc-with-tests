@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,5 +55,15 @@ public class StudentAndGradeServiceTest {
 	void isStudentNullCheck() {
 		assertTrue(this.studentService.checkIfStudentIsNull(1));
 		assertFalse(this.studentService.checkIfStudentIsNull(0));
+	}
+
+	@Test
+	void deleteStudentService() {
+		Optional<CollegeStudent> student = this.studentDao.findById(1);
+		assertTrue(student.isPresent(), "Return true");
+
+		this.studentService.deleteStudent(1);
+		student = this.studentDao.findById(1);
+		assertFalse(student.isPresent());
 	}
 }

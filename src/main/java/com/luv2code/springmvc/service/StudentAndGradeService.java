@@ -30,4 +30,10 @@ public class StudentAndGradeService {
 		}
 		return false;
 	}
+
+	public void deleteStudent(int id) {
+		if (this.checkIfStudentIsNull(id)) {
+			this.studentDao.deleteById(id);
+		}
+	}
 }

@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
@@ -65,5 +67,16 @@ public class StudentAndGradeServiceTest {
 		this.studentService.deleteStudent(1);
 		student = this.studentDao.findById(1);
 		assertFalse(student.isPresent());
+	}
+
+	@Test
+	void getGradebookService() {
+		Iterable<CollegeStudent> iterableCollegeStudents = this.studentService.getGradebook();
+		List<CollegeStudent> collegeStudents = new ArrayList<>();
+		for (CollegeStudent student : iterableCollegeStudents) {
+			collegeStudents.add(student);
+		}
+
+		assertEquals(1, collegeStudents.size());
 	}
 }

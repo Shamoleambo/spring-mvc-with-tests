@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 
 import com.luv2code.springmvc.models.CollegeStudent;
 import com.luv2code.springmvc.repository.StudentDao;
@@ -69,6 +70,7 @@ public class StudentAndGradeServiceTest {
 		assertFalse(student.isPresent());
 	}
 
+	@Sql("/insertData.sql")
 	@Test
 	void getGradebookService() {
 		Iterable<CollegeStudent> iterableCollegeStudents = this.studentService.getGradebook();
@@ -77,6 +79,6 @@ public class StudentAndGradeServiceTest {
 			collegeStudents.add(student);
 		}
 
-		assertEquals(1, collegeStudents.size());
+		assertEquals(5, collegeStudents.size());
 	}
 }
